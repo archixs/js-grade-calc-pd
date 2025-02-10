@@ -50,27 +50,25 @@ Zem vēstures ir jāizvada visu ierakstu vidējais rezultāts procentos. -->
 
     <button id="calculate-btn">Aprēķināt vērtējumu</button>
 
-    <div id="result"></div>
+    <p id="result"></p>
 
     <script>
       const calculateBtn = document.getElementById("calculate-btn");
       const nameInput = document.getElementById("name");
-      const pointsInput = document.getElementById("points").value;
-      const maxPointsInput = document.getElementById("max-points").value;
+      const pointsInput = document.getElementById("points");
+      const maxPointsInput = document.getElementById("max-points");
       const gradingSchemeSelect = document.getElementById("grading-scheme");
       const resultDiv = document.getElementById("result");
 
-      calculateBtn.addEventListener("click", function(){
-        console.log("works");
+      calculateBtn.addEventListener("click", function () {
         const name = nameInput.value;
-        const points = parseFloat(pointsInput);
-        const maxPoints = parseFloat(maxPointsInput);
+        const points = parseFloat(pointsInput.value);
+        const maxPoints = parseFloat(maxPointsInput.value);
         const gradingScheme = gradingSchemeSelect.value;
 
         // Validate inputs
         if (!name || isNaN(points) || isNaN(maxPoints) || maxPoints <= 0) {
-          resultDiv.innerHTML =
-            "<p>Lūdzu, aizpildiet visus laukus pareizi.</p>";
+          resultDiv.innerHTML = "Lūdzu, aizpildiet visus laukus pareizi.";
           return;
         }
         if (points < 0 || points > maxPoints) {
@@ -79,11 +77,11 @@ Zem vēstures ir jāizvada visu ierakstu vidējais rezultāts procentos. -->
           return;
         }
 
-        const grade = "";
-        if (gradingScheme === "procenti") {
-          const percentage = (points / maxPoints) * 100;
+        let grade = "";
+        if (gradingScheme === "percentage") {
+          let percentage = (points / maxPoints) * 100;
           grade = `Jūsu procentuālā vērtība ir: ${percentage.toFixed(2)}%`;
-        } else if (gradingScheme === "burti") {
+        } else if (gradingScheme === "letter") {
           if (points >= 90) {
             grade = "Jūsu burtu vērtējums ir: A";
           } else if (points >= 80) {
@@ -98,10 +96,9 @@ Zem vēstures ir jāizvada visu ierakstu vidējais rezultāts procentos. -->
         }
 
         resultDiv.innerHTML = grade;
-      })
-      
+      });
 
-    //   calculateBtn.addEventListener("click", handleClick());
+      //   calculateBtn.addEventListener("click", handleClick());
 
       //   === TERMINI un KODA PIEMĒRI ===
       // input, button, id, class, script, const, let, document, querySelector, getElementById,
