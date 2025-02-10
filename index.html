@@ -66,17 +66,27 @@ Zem vēstures ir jāizvada visu ierakstu vidējais rezultāts procentos. -->
         const maxPoints = parseFloat(maxPointsInput.value);
         const gradingScheme = gradingSchemeSelect.value;
 
-        // Validate inputs
+        // Validate inputs and show grade
+        if (validate(name, points, maxPoints)) {
+            showGrade(points, maxPoints, gradingScheme)
+        }
+        
+      });
+
+      function validate(name, points, maxPoints){
         if (!name || isNaN(points) || isNaN(maxPoints) || maxPoints <= 0) {
           resultDiv.innerHTML = "Lūdzu, aizpildiet visus laukus pareizi.";
-          return;
+          return false;
         }
         if (points < 0 || points > maxPoints) {
           resultDiv.innerHTML =
             "Iegūtie punkti nedrīkst pārsniegt maksimālos punktus.";
-          return;
+          return false;
         }
+        else return true;
+      }
 
+      function showGrade(points, maxPoints, gradingScheme){
         let grade = "";
         if (gradingScheme === "percentage") {
           let percentage = (points / maxPoints) * 100;
@@ -96,9 +106,8 @@ Zem vēstures ir jāizvada visu ierakstu vidējais rezultāts procentos. -->
         }
 
         resultDiv.innerHTML = grade;
-      });
-
-      //   calculateBtn.addEventListener("click", handleClick());
+      }
+      
 
       //   === TERMINI un KODA PIEMĒRI ===
       // input, button, id, class, script, const, let, document, querySelector, getElementById,
