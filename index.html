@@ -52,6 +52,8 @@ Zem vēstures ir jāizvada visu ierakstu vidējais rezultāts procentos. -->
 
     <p id="result"></p>
 
+    <div id="history"></div>
+
     <script>
       const calculateBtn = document.getElementById("calculate-btn");
       const nameInput = document.getElementById("name");
@@ -59,6 +61,7 @@ Zem vēstures ir jāizvada visu ierakstu vidējais rezultāts procentos. -->
       const maxPointsInput = document.getElementById("max-points");
       const gradingSchemeSelect = document.getElementById("grading-scheme");
       const resultDiv = document.getElementById("result");
+      const history = document.getElementById("history");
 
       calculateBtn.addEventListener("click", function () {
         const name = nameInput.value;
@@ -68,12 +71,11 @@ Zem vēstures ir jāizvada visu ierakstu vidējais rezultāts procentos. -->
 
         // Validate inputs and show grade
         if (validate(name, points, maxPoints)) {
-            showGrade(points, maxPoints, gradingScheme)
+          showGrade(points, maxPoints, gradingScheme, name);
         }
-        
       });
 
-      function validate(name, points, maxPoints){
+      function validate(name, points, maxPoints) {
         if (!name || isNaN(points) || isNaN(maxPoints) || maxPoints <= 0) {
           resultDiv.innerHTML = "Lūdzu, aizpildiet visus laukus pareizi.";
           return false;
@@ -82,11 +84,10 @@ Zem vēstures ir jāizvada visu ierakstu vidējais rezultāts procentos. -->
           resultDiv.innerHTML =
             "Iegūtie punkti nedrīkst pārsniegt maksimālos punktus.";
           return false;
-        }
-        else return true;
+        } else return true;
       }
 
-      function showGrade(points, maxPoints, gradingScheme){
+      function showGrade(points, maxPoints, gradingScheme, name) {
         let grade = "";
         if (gradingScheme === "percentage") {
           let percentage = (points / maxPoints) * 100;
@@ -106,8 +107,31 @@ Zem vēstures ir jāizvada visu ierakstu vidējais rezultāts procentos. -->
         }
 
         resultDiv.innerHTML = grade;
+        let textRecord = `${name}: ${grade}`;
+        saveHistory(textRecord);
+        displayHistory();
       }
-      
+
+      function saveHistory(textRecord) {
+        saveHistoryRecord(textRecord);
+      }
+
+      function saveHistoryRecord(textRecord) {
+        let record = JSON.parse(localStorage.getItem("history")) || {};
+        record[Date.now()] += textRecord;
+        localStorage.setItem("history", JSON.stringify(record));
+      }
+
+      function displayHistory() {
+        let record = JSON.parse(localStorage.getItem("history")) || {};
+        let history = "";
+        history = "<ul>";
+
+        for (const timestamp in record) {
+          history += `<li> ${record[timestamp]} </li>`;
+        }
+        history += "</ul>";
+      }
 
       //   === TERMINI un KODA PIEMĒRI ===
       // input, button, id, class, script, const, let, document, querySelector, getElementById,
@@ -124,5 +148,9 @@ Zem vēstures ir jāizvada visu ierakstu vidējais rezultāts procentos. -->
       // JSON.stringify
       // JSON.parse
     </script>
+
+    <ul>
+      <li></li>
+    </ul>
   </body>
 </html>
