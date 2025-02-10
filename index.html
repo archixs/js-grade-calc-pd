@@ -48,16 +48,20 @@ Zem vēstures ir jāizvada visu ierakstu vidējais rezultāts procentos. -->
       <option value="letter">Burtu vērtējums (A, B, C utt.)</option></select
     ><br /><br />
 
-    <button>Aprēķināt vērtējumu</button>
+    <button id="calculate-btn">Aprēķināt vērtējumu</button>
+
+    <div id="result"></div>
 
     <script>
       const calculateBtn = document.getElementById("calculate-btn");
       const nameInput = document.getElementById("name");
-      const maxPointsInput = document.getElementById("max-points");
+      const pointsInput = document.getElementById("points").value;
+      const maxPointsInput = document.getElementById("max-points").value;
       const gradingSchemeSelect = document.getElementById("grading-scheme");
       const resultDiv = document.getElementById("result");
 
-      function handleClick() {
+      calculateBtn.addEventListener("click", function(){
+        console.log("works");
         const name = nameInput.value;
         const points = parseFloat(pointsInput);
         const maxPoints = parseFloat(maxPointsInput);
@@ -65,7 +69,8 @@ Zem vēstures ir jāizvada visu ierakstu vidējais rezultāts procentos. -->
 
         // Validate inputs
         if (!name || isNaN(points) || isNaN(maxPoints) || maxPoints <= 0) {
-          resultDiv.innerHTML = "Lūdzu, aizpildiet visus laukus pareizi.";
+          resultDiv.innerHTML =
+            "<p>Lūdzu, aizpildiet visus laukus pareizi.</p>";
           return;
         }
         if (points < 0 || points > maxPoints) {
@@ -93,9 +98,10 @@ Zem vēstures ir jāizvada visu ierakstu vidējais rezultāts procentos. -->
         }
 
         resultDiv.innerHTML = grade;
-      }
+      })
+      
 
-      calculateBtn.addEventListener("click", handleClick());
+    //   calculateBtn.addEventListener("click", handleClick());
 
       //   === TERMINI un KODA PIEMĒRI ===
       // input, button, id, class, script, const, let, document, querySelector, getElementById,
